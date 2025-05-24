@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>แบบฟอร์มขอคิวงานตัดต่อ</title>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #status {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>แบบฟอร์มขอคิวงานตัดต่อ</h2>
+  <form id="jobForm">
+    <label>ชื่อ:</label>
+    <input type="text" id="name" required />
+
+    <label>เบอร์โทร:</label>
+    <input type="text" id="phone" required />
+
+    <label>รายละเอียดงาน:</label>
+    <textarea id="detail" required></textarea>
+
+    <label>วันที่ต้องการ:</label>
+    <input type="date" id="date" required />
+
+    <button type="submit">ส่งข้อมูล</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbziLifctEnYJ25xFX8I4QBWvWVuW8il8ZInHDiWMFOTZZNu2Lh7LT35OcfbIud6n3noBA/exec';
+
+    document.getElementById('jobForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        detail: document.getElementById('detail').value,
+        date: document.getElementById('date').value,
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.result === 'success') {
+          document.getElementById('status').innerText = 'ส่งข้อมูลเรียบร้อยแล้ว!';
+          document.getElementById('jobForm').reset();
+        } else {
+          document.getElementById('status').innerText = 'เกิดข้อผิดพลาด กรุณาลองใหม่';
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('status').innerText = 'ส่งไม่สำเร็จ กรุณาตรวจสอบอีกครั้ง';
+      });
+    });
+  </script>
+</body>
+</html>
