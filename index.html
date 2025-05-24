@@ -40,7 +40,6 @@
     #status {
       margin-top: 15px;
       font-weight: bold;
-      color: green;
     }
   </style>
 </head>
@@ -56,7 +55,7 @@
     <label>รายละเอียดงาน:</label>
     <textarea id="detail" required></textarea>
 
-    <label>วันที่ต้องการ:</label>
+    <label>วันรับงาน:</label>
     <input type="date" id="date" required />
 
     <button type="submit">ส่งข้อมูล</button>
@@ -65,7 +64,7 @@
   <p id="status"></p>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbziLifctEnYJ25xFX8I4QBWvWVuW8il8ZInHDiWMFOTZZNu2Lh7LT35OcfbIud6n3noBA/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz_1_fEx6jFHhjmVnejds2MW1TLyGOMG3D-uCRFplKQmK5VXrQuvkvfsbMZvi6amovqkA/exec';
 
     document.getElementById('jobForm').addEventListener('submit', e => {
       e.preventDefault();
@@ -84,18 +83,5 @@
       })
       .then(response => response.json())
       .then(result => {
-        if (result.result === 'success') {
-          document.getElementById('status').textContent = 'ส่งข้อมูลเรียบร้อยแล้ว!';
-          document.getElementById('jobForm').reset();
-        } else {
-          document.getElementById('status').textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่';
-        }
-      })
-      .catch(error => {
-        console.error('Error!', error.message);
-        document.getElementById('status').textContent = 'ส่งไม่สำเร็จ กรุณาตรวจสอบอีกครั้ง';
-      });
-    });
-  </script>
-</body>
-</html>
+        const statusEl = document.getElementById('status');
+        if
